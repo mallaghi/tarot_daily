@@ -1,0 +1,37 @@
+
+.heading {
+  color: #eff4f3;
+  font-size: 3rem; /* Increased font size for the heading */
+  font-weight: bold; /* Added bold font weight */
+}
+
+.transparent-overlay {
+  background-color: rgba(174, 33, 155, 0.14);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.darker-overlay {
+  background-color: rgba(176, 44, 159, 0.14);
+  height: 75vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left-section{
+  background-image: url(tarot.avif);
+  background-size: cover;
+  height: 100vh;
+}
+
+.main {
+  height: 100vh;
+  /* background-image: url(tarot.avif);
+  background-size: cover; */
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+}

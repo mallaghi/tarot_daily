@@ -3,7 +3,6 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import requests
 import random
-from flask import current_app
 
 
 tarot_url = "https://tarotcards-api-81f4cb400f3a.herokuapp.com/"
@@ -41,16 +40,18 @@ def send_daily_tarot_email(user, app):
     message['To'] = receiver_email
     message['Subject'] = message_subject
 
-
     message.attach(MIMEText(message_body, 'plain'))
 
-    # Connect to Gmail's SMTP server
-    with smtplib.SMTP('smtp.gmail.com', 587) as server:
-        server.starttls()
-        server.login(sender_email, sender_password)
+    try:
+        # Connect to Gmail's SMTP server
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
 
-        server.sendmail(sender_email, receiver_email, message.as_string())
+            server.sendmail(sender_email, receiver_email, message.as_string())
 
-
-
-    print(f"Email sent successfully to {user.name} ({user.email})")
+        print(f"Email sent successfully to {user.name} ({user.email})")
+    except smtplib.SMTPResponseException as e:
+        print(f"SMTP Response Exception: {e}")
+    except Exception as e:
+        print(f"An error occurred: {e}")

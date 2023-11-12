@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 
 @app.route('/')
 def index():
-    return render_template('index.html', users=users)
+    return render_template('index.html')
 
 @app.route('/confirmation')
 def confirmation():

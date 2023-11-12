@@ -6,7 +6,6 @@ from sqlalchemy.exc import IntegrityError
 
 @app.route('/')
 def index():
-    users = User.query.all()
     return render_template('index.html', users=users)
 
 @app.route('/confirmation')
@@ -26,7 +25,7 @@ def submit_form():
             db.session.commit()
             flash('Signed up successfully!', 'success')
 
-            send_daily_tarot_email(user, app)
+            # send_daily_tarot_email(user, app)
 
             return redirect(url_for('confirmation'))
         except IntegrityError as e:
@@ -34,3 +33,14 @@ def submit_form():
             flash('Email already registered. Please use a different email.', 'error')
 
     return redirect(url_for('index'))
+
+@app.route('/unsubscribe/<email>')
+def unsubscribe(email):
+    user = User.query.filter_by(email=email).first()
+
+    if user:
+        user.subscribed = False
+        db.session.commit()
+        return render_template('unsubscribed.html', user=user)
+    else:
+        return render_template('unsubscribe_error.html')

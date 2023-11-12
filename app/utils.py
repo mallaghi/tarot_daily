@@ -1,18 +1,22 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from email.mime.image import MIMEImage
 import requests
 import random
 
 
 tarot_url = "https://tarotcards-api-81f4cb400f3a.herokuapp.com/"
 
+user_agent = "DailyTarotApp/1.0"
 
 def get_random_tarot_card():
-    response = requests.get(tarot_url)
+    headers = {"User-Agent": user_agent}
+    response = requests.get(tarot_url, headers=headers)
     response.raise_for_status()
     tarot_data = response.json()
     return random.choice(tarot_data)
+
 
 def send_daily_tarot_email(user, app):
     gmail_username = app.config['GMAIL_USERNAME']
@@ -23,13 +27,23 @@ def send_daily_tarot_email(user, app):
     card_image_url = random_card.get("image")
     card_meaning = random_card.get("meaning")
 
+    unsubscribe_link = f"{app.config['BASE_URL']}/unsubscribe/{user.email}"
+    unsubscribe_message = f"<p>If you no longer wish to receive daily Tarot cards, you can unsubscribe here: {unsubscribe_link}</p>"
+
     message_subject = f"{user.name}'s Tarot Card of the Day"
-    message_body = f"Hey {user.name}, here is your daily Tarot card!\n\n"
-    message_body += f"Card Name: {card_name}\n"
+    message_body = f"<p> Hey {user.name}, here is your daily Tarot card!</p>"
+    message_body += f"<p>Card: {card_name}\n</p>"
 
-    message_body += f'<img src="{card_image_url}" alt="{card_name}">\n'
 
-    message_body += f"Card Meaning: {card_meaning}"
+    image_response = requests.get(card_image_url)
+    image_data = image_response.content
+    image = MIMEImage(image_data, name=f"{card_name}.jpg", _subtype='jpg')
+    image.add_header('Content-ID', '<card_image>')
+    message_body += f'<img src="cid:card_image" alt="{card_name}">\n'
+
+    message_body += f"<p>Card Meaning: {card_meaning}</p>"
+
+    message_body += unsubscribe_message
 
     sender_email = gmail_username
     sender_password = gmail_password
@@ -40,7 +54,8 @@ def send_daily_tarot_email(user, app):
     message['To'] = receiver_email
     message['Subject'] = message_subject
 
-    message.attach(MIMEText(message_body, 'plain'))
+    message.attach(MIMEText(message_body, 'html'))
+    message.attach(image)
 
     try:
         # Connect to Gmail's SMTP server
@@ -55,3 +70,4 @@ def send_daily_tarot_email(user, app):
         print(f"SMTP Response Exception: {e}")
     except Exception as e:
         print(f"An error occurred: {e}")
+

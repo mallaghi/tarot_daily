@@ -24,7 +24,7 @@ def submit_form():
         try:
             db.session.add(user)
             db.session.commit()
-            flash('Form submitted successfully!', 'success')
+            flash('Signed up successfully!', 'success')
 
             send_daily_tarot_email(user, app)
 

@@ -13,6 +13,7 @@ app.secret_key = secrets.token_hex(16)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../users.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+app.config['BASE_URL'] = 'http://127.0.0.1:8000/'
 
 load_dotenv()
 
@@ -30,7 +31,7 @@ from app import models, utils, routes
 def schedule_send_daily_tarot_email():
     try:
         with app.app_context():
-            users = models.User.query.all()
+            users = models.User.query.filter_by(subscribed=True).all()
             for user in users:
                 utils.send_daily_tarot_email(user, app)
     except requests.exceptions.RequestException as error:

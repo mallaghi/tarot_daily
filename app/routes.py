@@ -1,20 +1,5 @@
 from flask import render_template, request, redirect, url_for, flash
-from app.app import app, db
-from app.models import User
-from app.utils import send_daily_tarot_email
-from sqlalchemy.exc import IntegrityError
-
-@app.route('/')
-def index():
-    users = User.query.all()
-    return render_template('index.html', users=users)
-
-@app.route('/confirmation')
-def confirmation():
-    return render_template('confirmation.html')
-
-from flask import render_template, request, redirect, url_for, flash
-from app.app import app, db
+from app import app, db
 from app.models import User
 from app.utils import send_daily_tarot_email
 from sqlalchemy.exc import IntegrityError

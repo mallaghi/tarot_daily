@@ -27,19 +27,32 @@ ul {
 }
 
 
-/* .right-section {
-  background-color: #B4AFE1;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
-
 .main{
   background-color: #B4AFE1;
   height: 100vh;
 
+}
+
+.confirmation{
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: azure;
+  text-align: center;
+}
+
+.confirmation h2{
+  font-size: 3rem;
+  font-family:'Fira Sans';
+  font-weight: bold;
+}
+
+.confirmation p{
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-style: italic;
 }
 
 
@@ -251,7 +264,7 @@ ul {
 @media (max-width: 500px) {
   .left-section h1{
    margin-top: 5rem;
-   
+
 
   }
 }

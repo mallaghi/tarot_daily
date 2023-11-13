@@ -25,7 +25,7 @@ def submit_form():
             db.session.commit()
             flash('Signed up successfully!', 'success')
 
-            # send_daily_tarot_email(user, app)
+            send_daily_tarot_email(user, app)
 
             return redirect(url_for('confirmation'))
         except IntegrityError as e:

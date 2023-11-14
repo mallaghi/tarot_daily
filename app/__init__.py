@@ -17,6 +17,7 @@ app.config['BASE_URL'] = 'https://get-daily-tarot-fbcbb0855e5f.herokuapp.com/'
 
 load_dotenv()
 
+
 app.config['GMAIL_USERNAME'] = os.getenv("GMAIL_USERNAME")
 app.config['GMAIL_PASSWORD'] = os.getenv("GMAIL_PASSWORD")
 

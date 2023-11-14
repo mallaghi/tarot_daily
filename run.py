@@ -1,9 +1,4 @@
-from app import app, scheduler
+from app import app
 
 if __name__ == '__main__':
-    scheduler.start()
-
-    try:
-        app.run(debug=True, port=8000)
-    finally:
-        scheduler.shutdown()
+    app.run(debug=True, port=8000)

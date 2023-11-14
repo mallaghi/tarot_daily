@@ -10,7 +10,7 @@ import requests
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../users.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 app.config['BASE_URL'] = 'https://get-daily-tarot-fbcbb0855e5f.herokuapp.com/'

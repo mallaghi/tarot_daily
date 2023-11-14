@@ -7,16 +7,20 @@ import os
 from flask_migrate import Migrate
 import secrets
 import requests
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+
+# SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
+
 # 'sqlite:///users.db'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 app.config['BASE_URL'] = 'https://get-daily-tarot-fbcbb0855e5f.herokuapp.com/'
 
-load_dotenv()
+
 
 
 app.config['GMAIL_USERNAME'] = os.getenv("GMAIL_USERNAME")

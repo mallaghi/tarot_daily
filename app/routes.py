@@ -39,7 +39,7 @@ def unsubscribe(email):
     user = User.query.filter_by(email=email).first()
 
     if user:
-        user.subscribed = False
+        db.session.delete(user)
         db.session.commit()
         return render_template('unsubscribed.html', user=user)
     else:

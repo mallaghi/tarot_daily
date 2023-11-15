@@ -32,7 +32,7 @@ scheduler = BackgroundScheduler()
 from app import models, utils, routes
 
 
-@scheduler.scheduled_job('cron', hour=10, minute=30, timezone='GMT')
+@scheduler.scheduled_job('cron', hour=10, minute=0, timezone='GMT')
 # @scheduler.scheduled_job('interval', minutes=4)
 def schedule_send_daily_tarot_email():
     try:

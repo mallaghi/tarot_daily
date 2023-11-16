@@ -36,7 +36,7 @@ def send_daily_tarot_email(user, app):
     message_body += f"<p>Get ready for a magical journey! 🌟 Your Tarot card for today is the {card_name}.</p>"
     message_body += f"<p>🔮 Let's dive into the mystical vibes and uncover the lessons this card has in store for you:</p>"
     message_body += f"<p>{card_meaning}</p>"
-    message_body += f"<p>Wishing you a day filled with positive energy and insights!</p>"
+
 
     image_response = requests.get(card_image_url)
     image_data = image_response.content
@@ -44,7 +44,9 @@ def send_daily_tarot_email(user, app):
     image.add_header('Content-ID', '<card_image>')
 
     message_body += f'<img src="cid:card_image" alt="{card_name}">\n'
-
+    message_body += f"<p>Wishing you a day filled with positive energy and insights!</p>"
+    message_body += f"<p>Best,</p>"
+    message_body += f"<p>The Daily Tarot Team </p>"
     message_body += unsubscribe_message
 
     sender_email = gmail_username
